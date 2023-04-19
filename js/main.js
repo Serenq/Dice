@@ -16,11 +16,14 @@
 
     let dice = {
         counter: 1,
-        counterLimit: function(countCheck){
+        counterLimitControl: function(countCheck){
             return (countCheck > 6) ? dice.counter = 1 : (countCheck < 1) ? dice.counter = 6 : dice.counter;
         },
         randNum: function(min, max){
             return Math.round( Math.random() * (max - min) + min );
+        },
+        appClassPrefix: function(){
+            $('#app').attr('class','diceSum-' + $('.dice').length);
         },
         click: function(e){
             if(e.which == 1){ dice.add(this) } // ЛКМ: хтмл-объект текущего кубика
@@ -30,7 +33,7 @@
             let diceLN = $('.dice').length;
             if( diceLN >= 6 ){return} // ВЫХОД: Не добавлять больше 6 кубиков
 
-            dice.counterLimit(++dice.counter);
+            dice.counterLimitControl(++dice.counter);
 
             $(curElem)
                 .clone()
@@ -42,6 +45,7 @@
 
             $('.dice').off('mousedown', dice.click);
             $('.dice').on('mousedown', dice.click);
+            dice.appClassPrefix();
         },
         remove: function(curElem){
             let diceLN = $('.dice').length;
@@ -52,9 +56,14 @@
 
             $(curElem).remove();
             dice.counter = diceLN-1;
+            dice.appClassPrefix();
+        },
+        init: function(){
+            dice.appClassPrefix();
         }
     }
 
     project.info();
+    dice.init();
     $('.dice').on('mousedown', dice.click);
 }());

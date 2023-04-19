@@ -28,7 +28,7 @@ html,
     justify-content: space-around;
     align-items: center;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 1.0416%; /* 20px */
 }
 
 /* Dice w+h500*/
@@ -92,6 +92,7 @@ html,
     bottom: -50%;
 }
 
+    /* dice number style by adding class */
 .dice.d-1 .dice__dots-tl,
 .dice.d-1 .dice__dots-tr,
 .dice.d-1 .dice__dots-ml,
@@ -114,4 +115,38 @@ html,
 .dice.d-5 .dice__dots-mr,
 .dice.d-6 .dice__dots-m
 {display: none;}
+
+    /* dice sizes by adding */
+#app.diceSum-2 .dice {
+    width: 33vw;
+    height: 33vw;
+}
+
+#app.diceSum-3 .dice
+{
+    width: 28vw;
+    height: 28vw;
+    max-width: 420px;
+    max-height: 420px;
+}
+
+#app.diceSum-4 .dice,
+#app.diceSum-5 .dice,
+#app.diceSum-6 .dice
+{
+    width: 20vw;
+    height: 20vw;
+}
+
+#app.diceSum-5 .dice
+{
+    width: 16vw;
+    height: 16vw;
+}
+
+
+#app.diceSum-6 .dice {
+    width: 13vw;
+    height: 13vw;
+}
 /* Dice */
