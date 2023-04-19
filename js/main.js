@@ -3,6 +3,8 @@
 */
 
 ;(function(){
+    document.oncontextmenu = new Function("return false;"); // Запрет ПКМ
+
     const project = {
         title: 'Игральные кости',
         author: 'Serenq',
@@ -13,10 +15,42 @@
     }
 
     let dice = {
+        counter: 1,
+        counterLimit: function(countCheck){
+            return (countCheck > 6) ? dice.counter = 1 : (countCheck < 1) ? dice.counter = 6 : dice.counter;
+        },
         randNum: function(min, max){
             return Math.round( Math.random() * (max - min) + min );
+        },
+        click: function(e){
+            if(e.which == 1){ dice.add(this) } // ЛКМ: хтмл-объект текущего кубика
+            if(e.which == 3){ dice.remove(this) } // ПКМ: удалить текущий кубик
+        },
+        add: function(curElem){
+            let diceLN = $('.dice').length;
+            if( diceLN >= 6 ){return} // Не добавлять больше 6 кубиков
+
+            dice.counterLimit(++dice.counter);
+            console.log( dice.counter );
+
+            $(curElem)
+                .clone()
+                .appendTo('#app')
+                .attr('class', `dice d-${dice.counter}`)
+                .attr('data-num', dice.counter);
+
+            $('.dice').off('mousedown', dice.click);
+            $('.dice').on('mousedown', dice.click);
+        },
+        remove: function(curElem){
+            let diceLN = $('.dice').length;
+            if( diceLN <= 1 ){return} // Нельзя удалять все кубики
+
+            $(curElem).remove();
+            dice.counter = diceLN-1;
         }
     }
 
     project.info();
+    $('.dice').on('mousedown', dice.click);
 }());

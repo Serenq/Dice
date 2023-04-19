@@ -32,11 +32,13 @@ html,
 .dice {
     width: 50vw;
     height: 50vw;
+    outline: 12px solid transparent;
     max-width: 600px;
     max-height: 600px;
     background: linear-gradient(#FF2862, #B80031);
     position: relative;
     border-radius: 25%;
+    cursor: pointer;
 }
 .dice::before {
     content: "";
@@ -49,6 +51,9 @@ html,
     top: 0;right: 0;
     bottom: 0;left: 0;
     z-index: 1;
+}
+.dice:hover {
+    outline-color: #70E892;
 }
 
 .dice__dots {
