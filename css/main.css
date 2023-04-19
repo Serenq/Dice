@@ -20,24 +20,48 @@ html,
 
 .hide {display: none;}
 
-/* Dice */
+#app {
+    background-color: #FFE5BC;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Dice w+h500*/
 .dice {
-    width: 46.2962%;
-    padding-top: 46.2962%;
+    width: 50vw;
+    height: 50vw;
+    max-width: 600px;
+    max-height: 600px;
     background: linear-gradient(#FF2862, #B80031);
     position: relative;
-    border-radius: 60px;
+    border-radius: 25%;
+}
+.dice::before {
+    content: "";
+    width: 97%;
+    height: 97%;
+    background: linear-gradient(rgba(255,255,255, .2), rgba(255,255,255,.05));
+    border-radius: 50%;
+    margin: auto;
+    position: absolute;
+    top: 0;right: 0;
+    bottom: 0;left: 0;
+    z-index: 1;
 }
 
 .dice__dots {
     width: 20%;
     height: 20%;
-    background: linear-gradient(#171717, #363636);
+    background: linear-gradient(#292929, #474747);
     margin: auto;
+    box-shadow: 0 2px #999, 0 -2px #111;
     position: absolute;
     top: 0;right: 0;
     bottom: 0;left: 0;
     border-radius: 50%;
+    z-index: 2;
 }
 
 .dice__dots-tl,

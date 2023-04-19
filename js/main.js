@@ -13,7 +13,9 @@
     }
 
     let dice = {
-        
+        randNum: function(min, max){
+            return Math.round( Math.random() * (max - min) + min );
+        }
     }
 
     project.info();
