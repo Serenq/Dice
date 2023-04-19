@@ -10,6 +10,7 @@ body {
     padding: 0;
     font-family: monospace;
     font-size: 14px;
+    overflow: hidden;
 }
 
 body,
@@ -22,9 +23,11 @@ html,
 
 #app {
     background-color: #FFE5BC;
+    overflow: auto;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
     gap: 20px;
 }
 
@@ -32,7 +35,7 @@ html,
 .dice {
     width: 50vw;
     height: 50vw;
-    outline: 12px solid transparent;
+    outline: 6px solid transparent;
     max-width: 600px;
     max-height: 600px;
     background: linear-gradient(#FF2862, #B80031);

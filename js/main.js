@@ -28,23 +28,27 @@
         },
         add: function(curElem){
             let diceLN = $('.dice').length;
-            if( diceLN >= 6 ){return} // Не добавлять больше 6 кубиков
+            if( diceLN >= 6 ){return} // ВЫХОД: Не добавлять больше 6 кубиков
 
             dice.counterLimit(++dice.counter);
-            console.log( dice.counter );
 
             $(curElem)
                 .clone()
                 .appendTo('#app')
-                .attr('class', `dice d-${dice.counter}`)
-                .attr('data-num', dice.counter);
+                .attr({
+                    class: `dice d-${dice.counter}`,
+                    'data-num': dice.counter
+                });
 
             $('.dice').off('mousedown', dice.click);
             $('.dice').on('mousedown', dice.click);
         },
         remove: function(curElem){
             let diceLN = $('.dice').length;
-            if( diceLN <= 1 ){return} // Нельзя удалять все кубики
+            if( diceLN <= 1 ){
+                $(curElem).attr({class: 'dice d-1', 'data-num': 1});
+                return;
+            } // ВЫХОД: Нельзя удалять все кубики
 
             $(curElem).remove();
             dice.counter = diceLN-1;
