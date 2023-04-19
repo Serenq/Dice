@@ -30,8 +30,8 @@ html,
 }
 
 .dice__dots {
-    width: 100px;
-    height: 100px;
+    width: 20%;
+    height: 20%;
     background: linear-gradient(#171717, #363636);
     margin: auto;
     position: absolute;
