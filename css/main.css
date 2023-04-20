@@ -149,4 +149,66 @@ html,
     width: 13vw;
     height: 13vw;
 }
+
+    /* dice shake */
+@keyframes shake-style-1 {
+    0% {top: -10px; transform: rotateZ(6deg);}
+    33% {bottom: -10px;}
+    66% {top: -10px; right: -10px;}
+    100% {bottom: -10px;}
+}
+@keyframes shake-style-2 {
+    0% {top: -10px; transform: rotateZ(-4deg);}
+    33% {bottom: -10px; left: -10px;}
+    66% {top: -10px; right: -10px;}
+    100% {bottom: -10px;}
+}
+@keyframes shake-style-3 {
+    0% {bottom: -10px; transform: rotateZ(3deg);}
+    33% {top: -10px; right: -10px;}
+    66% {bottom: -10px; left: -10px;}
+    100% {top: -10px;}
+}
+
+.dice.shake-1 {
+    animation: shake-style-1 .2s 0s 3;
+}
+.dice.shake-2 {
+    animation: shake-style-2 .2s 0s 3;
+}
+.dice.shake-3 {
+    animation: shake-style-3 .2s 0s 3;
+}
 /* Dice */
+
+/* roll button */
+.roll {
+    width: 14.625vw;
+    height: 14.625vw;
+    background: radial-gradient(at 0% 0%,#3C8500, #2C6200);
+    outline: 20px solid #57C400;
+    border-radius: 0 0 100% 0;
+    text-align: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 10;
+    cursor: pointer;
+}
+.roll:hover {
+    background: radial-gradient(at 0% 0%,#459900, #377A00);
+}
+
+.roll__value {
+    font-size: 12vw;
+    font-weight: bold;
+    line-height: 13vw;
+    letter-spacing: -1vw;
+    font-family: cursive, calibri, serif;
+    color: #DBFFBD;
+    text-shadow: 0 0 2px #7BB24D, 0 0 8px #7BB24D, 0 0 12px #7BB24D;
+    display: inline-block;
+    text-align: center;
+    position: relative;
+}
+/* roll button */
