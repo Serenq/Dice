@@ -17,6 +17,17 @@
 
     let dice = {
         counter: 1,
+        template: function(num){
+            return `<div class="dice d-${num}" data-num="${num}">
+                <div class="dice__dots dice__dots-tl"></div>
+                <div class="dice__dots dice__dots-tr"></div>
+                <div class="dice__dots dice__dots-ml"></div>
+                <div class="dice__dots dice__dots-m"></div>
+                <div class="dice__dots dice__dots-mr"></div>
+                <div class="dice__dots dice__dots-bl"></div>
+                <div class="dice__dots dice__dots-br"></div>
+            </div>`
+        },
         counterLimitControl: function(countCheck){
             return (countCheck > 6) ? dice.counter = 1 : (countCheck < 1) ? dice.counter = 6 : dice.counter;
         },
@@ -45,7 +56,7 @@
             });
             setTimeout(function(){
                 $('.dice').removeClass('shake-1 shake-2 shake-3');
-            }, 400);
+            }, 300);
             
             dice.sum();
         },
@@ -59,44 +70,27 @@
         },
         add: function(curElem){
             let diceLN = $('.dice').length;
-            if( curElem == undefined ){createDice( $('.dice').eq(0) )}            
-
-            function createDice(elem){
-                if( diceLN >= 6 ){return} // ВЫХОД: Не добавлять больше 6 кубиков
-
-                dice.counterLimitControl(++dice.counter);
-
-                $(curElem || elem)
-                    .clone()
-                    .appendTo('#app')
-                    .attr({
-                        class: `dice d-${dice.counter}`,
-                        'data-num': dice.counter
-                    });
-            }
-            createDice();
+            if( diceLN >= 6 ){return} // ВЫХОД: Не добавлять больше 6 кубиков
+            $(dice.template(++dice.counter)).appendTo('#app');
+            dice.counterLimitControl(dice.counter);
 
             $('.dice').off('mousedown', dice.click);
             $('.dice').on('mousedown', dice.click);
             dice.appClassPrefix();
+            dice.sum();
         },
         remove: function(curElem){
             let diceLN = $('.dice').length;
-            if( curElem == undefined ){removeDice( $('.dice').eq(-1) )}  
-            
-            function removeDice(elem){
-                if( diceLN <= 1 ){
-                    $(curElem || elem).attr({class: 'dice d-1', 'data-num': 1});
-                    return;
-                } // ВЫХОД: Нельзя удалять все кубики
-    
-                $(curElem || elem).remove();
-            }
+            if( diceLN <= 1 ){
+                $('.dice').attr({class: 'dice d-1', 'data-num': 1});
+                return;
+            } // ВЫХОД: Нельзя удалять все кубики
 
-            removeDice();
-
+            if($(curElem).hasClass('dice')){$(curElem).remove()}
+            else {$('.dice').eq(-1).remove()}
             dice.counter = diceLN-1;
             dice.appClassPrefix();
+            dice.sum();
         },
         init: function(){
             dice.appClassPrefix();
@@ -108,4 +102,6 @@
     $('.dice').on('mousedown', dice.click);
     $('.roll').on('click', dice.roll);
     $(window).on('keypress', dice.keyPress);
+    $('.mobile-add-remove__add').on('click', dice.add)
+    $('.mobile-add-remove__remove').on('click', dice.remove)
 }());
