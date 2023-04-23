@@ -19,8 +19,6 @@ html,
     height: 100%;
 }
 
-.hide {display: none;}
-
 #app {
     background-color: #FFE5BC;
     overflow: auto;
@@ -173,13 +171,13 @@ html,
 }
 
 .dice.shake-1 {
-    animation: shake-style-1 .2s 0s 3;
+    animation: shake-style-1 .12s 0s 2;
 }
 .dice.shake-2 {
-    animation: shake-style-2 .2s 0s 3;
+    animation: shake-style-2 .12s 0s 2;
 }
 .dice.shake-3 {
-    animation: shake-style-3 .2s 0s 3;
+    animation: shake-style-3 .12s 0s 2;
 }
 /* Dice */
 
@@ -240,6 +238,23 @@ html,
 }
 /* add / remove */
 
+/* manual */
+.manual {
+    color: #D6B074;
+    font-size: 20px;
+    font-family: cursive, calibri, serif;
+    font-weight: bold;
+    list-style: none;
+    position: absolute;
+    left: 20px;
+    bottom: 20px;
+}
+
+.manual__list-item {
+    margin-bottom: 10px;
+}
+/* manual */
+
 @media (max-width: 769px){
     #app {
         gap: 30px;
@@ -262,5 +277,9 @@ html,
 
     .mobile-add-remove {
         display: inline-block;
+    }
+
+    .manual {
+        font-size: inherit;
     }
 }
