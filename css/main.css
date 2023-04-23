@@ -188,7 +188,9 @@ html,
     min-width: 200px;
     min-height: 200px;
     background: radial-gradient(at 0% 0%,#3C8500, #2C6200);
-    outline: 20px solid #57C400;
+    border: 20px solid #57C400;
+    border-top: none;
+    border-left: none;
     border-radius: 0 0 100% 0;
     text-align: center;
     position: absolute;
