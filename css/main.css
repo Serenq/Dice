@@ -11,6 +11,7 @@ body {
     font-family: monospace;
     font-size: 14px;
     overflow: hidden;
+    user-select: none;
 }
 
 body,
@@ -18,6 +19,8 @@ html,
 #app {
     height: 100%;
 }
+body,
+html {min-width: 320px;}
 
 #app {
     background-color: #FFE5BC;
@@ -34,6 +37,7 @@ html,
     align-items: center;
     padding: 50px 0;
     overflow: visible;
+    z-index: 9;
 }
 
 #dice-container {
@@ -45,7 +49,7 @@ html,
     flex-wrap: wrap;
     gap: 100px;
 
-    transition: transform .6s ease-out;
+    transition: transform .3s ease-out;
 }
 
 #dice-layer.diceSum-2 #dice-container {transform: scale(.82)}
@@ -177,24 +181,39 @@ html,
 /* Dice */
 
 /* roll button */
+.button-layer {
+    height: 33.333%;
+    display: flex;
+    z-index: 10;
+}
+
 .roll {
     width: auto;
-    height: 33.333%;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: #3C8500;
+    background: radial-gradient(#50B200, #3C8500);
+    box-shadow: 7px 7px 10px rgba(0,0,0,.2);
+    margin: 20px;
     text-align: center;
     flex-grow: 1;
+    border-radius: 60px;
     position: relative;
     cursor: pointer;
+
+    transition: transform .02s linear, box-shadow .02s linear;
 }
 .roll:hover {
-    background: #459900;
+    background: radial-gradient(#7AD431, #50B200);
+}
+.roll:active {
+    background: radial-gradient(#D1DE5D, #8FBF00);
+    box-shadow: 3px 3px 8px rgba(0,0,0,.2);
+    transform: scale(.99);
 }
 
 .roll__value {
-    font-size: 40px;
+    font-size: 22vw;
     font-weight: bold;
     font-family: cursive, calibri, serif;
     color: #DBFFBD;
@@ -206,40 +225,112 @@ html,
 
 /* add / remove */
 .mobile-add-remove {
+    width: 240px;
     color: #777;
+    background-color: #ccc;
     display: none;
-    text-align: left;
-    font-size: 0;
+    justify-content: space-evenly;
     font-family: cursive, calibri, serif;
+    margin: auto;
     position: absolute;
-    top: 0;
-    left: 230px;
+    top: -60px;
+    right: 90px;
+    border-radius: 20px;
+    z-index: 9;
+    transform: scale(1) rotate(0deg);
+    transition: transform .02s linear;
 }
+.mobile-add-remove:active {transform: scale(.98) rotate(0deg);}
+
 .mobile-add-remove__add,
 .mobile-add-remove__remove {
-    height: 80px;
-    font-size: 130px;
-    line-height: 50px;
-    display: inline-block;
-    vertical-align: text-top;
-    overflow: hidden;
+    font-size: 120px;
+    line-height: 120px;
+    top: -10px;
     cursor: pointer;
 }
 /* add / remove */
 
 /* manual */
 .manual {
+    width: 66%;
     color: #D6B074;
-    font-size: 20px;
+    font-size: 16px;
     font-family: cursive, calibri, serif;
     font-weight: bold;
     list-style: none;
     position: absolute;
     left: 20px;
-    bottom: 20px;
+    top: 20px;
+    z-index: 1;
 }
 
 .manual__list-item {
     margin-bottom: 10px;
 }
 /* manual */
+
+/* ORIENTTION */
+@media (orientation: landscape) {
+    #app {flex-direction: row}
+
+    .roll,
+    #dice-layer {height: auto}
+
+    .button-layer {width: 33.333%; height: auto;}
+    #dice-layer {width: 66.666%;}
+
+    #dice-layer.diceSum-3 #dice-container,
+    #dice-layer.diceSum-4 #dice-container,
+    #dice-layer.diceSum-5 #dice-container,
+    #dice-layer.diceSum-6 #dice-container {width: 920px}
+
+    #dice-layer.diceSum-2 #dice-container {transform: scale(0.66)}
+    
+    #dice-layer.diceSum-3 #dice-container,
+    #dice-layer.diceSum-4 #dice-container,
+    #dice-layer.diceSum-5 #dice-container,
+    #dice-layer.diceSum-6 #dice-container
+    {transform: scale(.48)}
+
+    .roll__value {font-size: 16vw}
+
+    .mobile-add-remove {
+        transform: rotate(270deg);
+        top: 140px;
+        right: auto;
+        left: -120px;
+    }
+    .mobile-add-remove:active {transform: scale(.98) rotate(270deg);}
+    .manual {width: 33%;}
+  }
+/* ORIENTTION */
+
+/* MOBILE: TABLET - 768px */
+@media (max-width: 769px){
+    #dice-container {gap: 50px;}
+
+    #dice-layer.diceSum-3 #dice-container,
+    #dice-layer.diceSum-4 #dice-container,
+    #dice-layer.diceSum-5 #dice-container,
+    #dice-layer.diceSum-6 #dice-container {width: 1100px;}
+
+    .dice {width: 260px;height: 260px;}
+    
+    .roll {border-radius: 30px;}
+
+    .mobile-add-remove {display: flex;}
+}
+/* MOBILE: TABLET - 768px */
+
+/* MOBILE: TABLET - 425px */
+@media (max-width: 426px){
+    .mobile-add-remove {
+        left: 0;right: 0;
+    }
+
+    #dice-layer.diceSum-3 #dice-container, #dice-layer.diceSum-4 #dice-container, #dice-layer.diceSum-5 #dice-container, #dice-layer.diceSum-6 #dice-container {width: 480px;}
+
+    .dice {width: 180px;height: 180px;}
+}
+/* MOBILE: TABLET - 425px */

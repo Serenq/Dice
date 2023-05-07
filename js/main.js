@@ -15,8 +15,6 @@ class Dice {
         this.diceMass = [];
 
         $('.dice').on('mouseup', this.click);
-        $('#mob-add').on('click', this.generate);
-        $('#mob-remove').on('click', this.remove);
         $(window).on('keyup', this.keyPress);
 
         this.init();
@@ -41,20 +39,18 @@ class Dice {
     }
 
     click = (e) => {
-        if(e.which == 1){ this.add(e) } // ЛКМ: Добавить кубик
-        if(e.which == 3){ this.remove(e.currentTarget) } // ПКМ: Удалить кубик
+        if(e.which == 1){ this.add() } // ЛКМ: Добавить кубик
+        if(e.which == 3){ this.remove() } // ПКМ: Удалить кубик
 
         return this;
     }
 
     keyPress = (e) => {
-        //if(e.key == ' '){ this.roll() } // Тосовать кубики: ПРОБЕЛ
-        //if(e.key == 'Control'){ this.generate() } // Добавить кубик: КОНТРОЛ
-        //if(e.key == 'Shift'){ this.remove() } // Удалить кубик: ШИФТ        
-        //this.diceLayerClassUpdate();
-        //this.calc();
-        //
-        //return this;
+        if(e.key == ' '){ this.roll() } // Тосовать кубики: ПРОБЕЛ
+        if(e.key == 'Control'){ this.add() } // Добавить кубик: КОНТРОЛ
+        if(e.key == 'Shift'){ this.remove() } // Удалить кубик: ШИФТ        
+        this.diceLayerClassUpdate();
+        this.calc();
     }
 
     generate(par){
@@ -66,7 +62,7 @@ class Dice {
             else{this.diceMass.push( $(this.template()) )}
         }
         
-        this.diceMass.map((item, index) => {
+        this.diceMass.map((item) => {
             item.on('mouseup', this.click);
             $('#dice-container').append( item );
         });
@@ -75,20 +71,16 @@ class Dice {
         this.calc();
     }
 
-    add(){
+    add = () => {
         if(this.diceCounter >= 6){return}
         this.diceCounter = (this.diceCounter < 6) ? ++this.diceCounter : this.diceCounter = this.diceCounter;
         this.generate(true);
     }
 
-    remove(currElem){
+    remove = () => {
         if( this.diceCounter <= 1 ){return}
-        this.diceMass.splice($(currElem).index(), 1);
-        $(currElem).remove();
-        this.diceCounter--;
-        
-        this.diceLayerClassUpdate();
-        this.calc();
+        this.diceCounter = (this.diceCounter > 1) ? --this.diceCounter : this.diceCounter = this.diceCounter;
+        this.generate(true);
     }
 
     roll = () => {
@@ -102,14 +94,11 @@ class Dice {
     }
 
     calc(){
-        // Суммирование кубиков
         let diceSum = null;
         $('.dice').each(function(){
             diceSum += Number($(this).attr('data-num'));
         });
         $('.roll__value').text(diceSum);
-
-        return this;
     }
 
     info(){
@@ -120,10 +109,10 @@ class Dice {
         this.info();
         this.diceLayerClassUpdate();
         this.calc();
-
-        return this;
     }
 }
 
 const Alfa = new Dice;
 $('#roll').on('click', Alfa.roll);
+$('#mob-add').on('click', Alfa.add);
+$('#mob-remove').on('click', Alfa.remove);
