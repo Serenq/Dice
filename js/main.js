@@ -1,22 +1,30 @@
 /* 
  * Игральные кости by Serenq / 23 апреля 2023
  * Управление: Добавить кубик (ЛКМ, КОНТРОЛ), удалить кубик (ПКМ, ШИФТ), тосовка кубиков (Зелёная кнопка, ПРОБЕЛ)
- * Версия 1.1 - Переписал код в классовом стиле. Заебался, не передать...!!! За то понял как стрелочные функции работают.
+ * Версия 1.2 - Переработка интерфейса и скриптов
 */
 
 document.oncontextmenu = new Function("return false;"); // Запрет ПКМ
 
 class Dice {
     constructor(faceNum){
-        this.faceNum = faceNum || this.randNum(1, 6);
-        this.self = $( this.template() );
         this.title = 'Игральные кости';
-        this.version = '1.1';
+        this.version = '1.2';
         this.author = 'Serenq';
+        this.diceCounter = 1;
+        this.diceMass = [];
+
+        $('.dice').on('mouseup', this.click);
+        $('#mob-add').on('click', this.generate);
+        $('#mob-remove').on('click', this.remove);
+        $(window).on('keyup', this.keyPress);
+
+        this.init();
+        this.generate(true);
     }
 
-    template() {
-        let num = this.faceNum;
+    template(par) {
+        let num = par || this.randNum(1, 6);
         return `<div class="dice d-${num} shake-${this.randNum(1, 3)}" data-num="${num}">
             <div class="dice__dots dice__dots-tl"></div>
             <div class="dice__dots dice__dots-tr"></div>
@@ -28,12 +36,69 @@ class Dice {
         </div>`
     }
 
-    appClassUpdate(){
-        $('#app').attr('class', `diceSum-${$('.dice').length}`);
-    }
-    
     randNum(min, max){
         return Math.round( Math.random() * (max - min) + min );
+    }
+
+    click = (e) => {
+        if(e.which == 1){ this.add(e) } // ЛКМ: Добавить кубик
+        if(e.which == 3){ this.remove(e.currentTarget) } // ПКМ: Удалить кубик
+
+        return this;
+    }
+
+    keyPress = (e) => {
+        //if(e.key == ' '){ this.roll() } // Тосовать кубики: ПРОБЕЛ
+        //if(e.key == 'Control'){ this.generate() } // Добавить кубик: КОНТРОЛ
+        //if(e.key == 'Shift'){ this.remove() } // Удалить кубик: ШИФТ        
+        //this.diceLayerClassUpdate();
+        //this.calc();
+        //
+        //return this;
+    }
+
+    generate(par){
+        $('.dice').remove();
+        this.diceMass.length = 0;
+
+        for(let i = 0; i <= this.diceCounter-1; i++){
+            if(par){this.diceMass.push( $(this.template(i+1)) )}
+            else{this.diceMass.push( $(this.template()) )}
+        }
+        
+        this.diceMass.map((item, index) => {
+            item.on('mouseup', this.click);
+            $('#dice-container').append( item );
+        });
+
+        this.diceLayerClassUpdate();
+        this.calc();
+    }
+
+    add(){
+        if(this.diceCounter >= 6){return}
+        this.diceCounter = (this.diceCounter < 6) ? ++this.diceCounter : this.diceCounter = this.diceCounter;
+        this.generate(true);
+    }
+
+    remove(currElem){
+        if( this.diceCounter <= 1 ){return}
+        this.diceMass.splice($(currElem).index(), 1);
+        $(currElem).remove();
+        this.diceCounter--;
+        
+        this.diceLayerClassUpdate();
+        this.calc();
+    }
+
+    roll = () => {
+        this.generate();
+        this.diceLayerClassUpdate();
+        this.calc();
+    }
+
+    diceLayerClassUpdate(){
+        $('#dice-layer').attr('class', `diceSum-${this.diceCounter}`);
     }
 
     calc(){
@@ -47,80 +112,18 @@ class Dice {
         return this;
     }
 
-    click = (e) => {
-        if(e.which == 1){ new Dice().create() } // ЛКМ: Добавить кубик
-        if(e.which == 3){ this.remove() } // ПКМ: Удалить кубик
-
-        return this;
-    }
-
-    keyPress = (e) => {
-        if(e.key == ' '){ this.roll() } // Тосовать кубики: ПРОБЕЛ
-        if(e.key == 'Control'){ new Dice().create() } // Добавить кубик: КОНТРОЛ
-        if(e.key == 'Shift'){ new Dice().updateDices(1) } // Удалить кубик: ШИФТ        
-        this.appClassUpdate();
-        this.calc();
-        
-        return this;
-    }
-
-    roll = () => {
-        $('.roll').off('click'); // Отвязка от кнопки удалённого кубика
-        this.updateDices();
-        this.appClassUpdate();
-        this.calc();
-    }
-
-    create(){
-        if(!this.self){new Dice().create(); return;} // Если нажали не по кубику, просто создать новый
-        if( $('.dice').length >= 6 ){return} // Лимит кубиков до 6
-        $('#app').append( this.self );
-
-        this.self.on('mousedown', this.click);
-        $('.roll').on('click', this.roll);
-
-        this.appClassUpdate();
-        this.calc();
-        
-        return this;
-    }
-
-    remove(){
-        $('.roll').off('click', this.roll);
-        if( $('.dice').length <= 1 ){return}        
-        // Если нажали не по кубику, пересоздать на один меньше
-        if( !this.self ){ return new Dice().updateDices(1) }
-
-        this.self.remove();
-        this.appClassUpdate();
-        this.calc();
-        $('.roll').off('click', this.roll); // Отвязка от кнопки удалённого кубика
-
-        return this;
-    }
-
-    updateDices = (less) => {
-        let repeat = $('.dice').length;
-        $('.dice').remove();
-        for(let i = 0; i < repeat - (less || 0); i++){ new Dice().create() }
-    }
-
     info(){
         console.log(`%c${this.title} ${this.version} / by ${this.author}`, "color: #ACE600; font-style: italic; background-color: #444; padding: 0 20px");
     }
 
     init(){
         this.info();
-        this.appClassUpdate();
+        this.diceLayerClassUpdate();
         this.calc();
 
         return this;
     }
 }
 
-let dice = new Dice().init();
-dice.create();
-
-$('.mobile-add-remove__add').on('click', dice.create);
-$('.mobile-add-remove__remove').on('click', dice.remove);
-$(window).on('keyup', dice.keyPress);
+const Alfa = new Dice;
+$('#roll').on('click', Alfa.roll);
