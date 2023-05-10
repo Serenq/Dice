@@ -244,9 +244,9 @@ html {min-width: 320px;}
 
 .mobile-add-remove__add,
 .mobile-add-remove__remove {
-    font-size: 120px;
-    line-height: 120px;
-    top: -10px;
+    font-size: 70px;
+    line-height: 70px;
+    top: -6px;
     cursor: pointer;
 }
 /* add / remove */
@@ -297,9 +297,9 @@ html {min-width: 320px;}
 
     .mobile-add-remove {
         transform: rotate(270deg);
-        top: 140px;
+        top: 100px;
         right: auto;
-        left: -120px;
+        left: -80px;
     }
     .mobile-add-remove:active {transform: scale(.98) rotate(270deg);}
     .manual {width: 33%;}
@@ -319,14 +319,20 @@ html {min-width: 320px;}
     
     .roll {border-radius: 30px;}
 
-    .mobile-add-remove {display: flex;}
+    .mobile-add-remove {
+        width: 180px;
+        display: flex;
+    }
 }
 /* MOBILE: TABLET - 961px */
 
 /* MOBILE: TABLET - 425px */
 @media (max-width: 426px){
     .mobile-add-remove {
-        left: 0;right: 0;
+        width: 180px;
+        top: -30px;
+        left: 0;
+        right: 0;
     }
 
     #dice-layer.diceSum-3 #dice-container, #dice-layer.diceSum-4 #dice-container, #dice-layer.diceSum-5 #dice-container, #dice-layer.diceSum-6 #dice-container {width: 480px;}
