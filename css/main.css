@@ -233,7 +233,7 @@ html {min-width: 320px;}
     font-family: cursive, calibri, serif;
     margin: auto;
     position: absolute;
-    top: -60px;
+    top: -30px;
     right: 90px;
     border-radius: 20px;
     z-index: 9;
@@ -329,7 +329,6 @@ html {min-width: 320px;}
 /* MOBILE: TABLET - 425px */
 @media (max-width: 426px){
     .mobile-add-remove {
-        width: 180px;
         top: -30px;
         left: 0;
         right: 0;
